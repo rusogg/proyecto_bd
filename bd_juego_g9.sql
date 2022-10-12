@@ -151,3 +151,15 @@ CREATE TABLE personajes
   CONSTRAINT FK_personajes_clases FOREIGN KEY (id_clase) REFERENCES clases(id_clase),
   CONSTRAINT FK_personajes_inventarios FOREIGN KEY (id_inventario) REFERENCES inventarios(id_inventario)
 );
+
+CREATE TABLE mapas_personajes
+(
+  id_usuario INT NOT NULL,
+  id_personaje INT NOT NULL,
+  id_mapa INT NOT NULL,
+  coord_x INT NOT NULL,
+  coord_y INT NOT NULL,
+  CONSTRAINT PK_mapas_personajes PRIMARY KEY (id_usuario, id_personaje, id_mapa),
+  CONSTRAINT FK_mapas_personajes_usuarios_personajes FOREIGN KEY (id_usuario, id_personaje) REFERENCES personajes(id_usuario, id_personaje),
+  CONSTRAINT FK_mapas_personajes_mapas FOREIGN KEY (id_mapa) REFERENCES mapas(id_mapa)
+);
