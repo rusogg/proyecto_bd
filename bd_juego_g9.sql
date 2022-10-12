@@ -129,3 +129,25 @@ CREATE TABLE inventarios_items
   CONSTRAINT FK_inventarios_items_inventarios FOREIGN KEY (id_inventario) REFERENCES inventarios(id_inventario),
   CONSTRAINT FK_inventarios_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
 );
+
+CREATE TABLE personajes
+(
+  id_usuario INT NOT NULL,
+  id_personaje INT IDENTITY NOT NULL,
+  nombre_personaje VARCHAR(100) NOT NULL,
+  id_clase INT NOT NULL,
+  id_inventario INT NOT NULL,
+  vida float NOT NULL,
+  mana float NOT NULL,
+  nivel INT NOT NULL,
+  experiencia float NOT NULL,
+  fuerza INT NOT NULL,
+  agilidad INT NOT NULL,
+  magia INT NOT NULL,
+  oro INT NOT NULL,
+  CONSTRAINT PK_personajes PRIMARY KEY (id_usuario, id_personaje),
+  CONSTRAINT UQ_nombre_personaje UNIQUE (nombre_personaje),
+  CONSTRAINT FK_personajes_cuentas FOREIGN KEY (id_usuario) REFERENCES cuentas(id_usuario),
+  CONSTRAINT FK_personajes_clases FOREIGN KEY (id_clase) REFERENCES clases(id_clase),
+  CONSTRAINT FK_personajes_inventarios FOREIGN KEY (id_inventario) REFERENCES inventarios(id_inventario)
+);
