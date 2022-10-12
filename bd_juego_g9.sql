@@ -96,3 +96,36 @@ CREATE TABLE items
   CONSTRAINT PK_items PRIMARY KEY (id_item),
   CONSTRAINT FK_items_categorias FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
 );
+
+CREATE TABLE tiendas_items
+(
+  id_tienda INT NOT NULL,
+  id_item INT NOT NULL,
+  precio FLOAT NOT NULL,
+  cantidad INT NOT NULL,
+  CONSTRAINT PK_tiendas_items PRIMARY KEY (id_tienda, id_item),
+  CONSTRAINT FK_tiendas_items_tiendas FOREIGN KEY (id_tienda) REFERENCES tiendas(id_tienda),
+  CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
+);
+
+CREATE TABLE mapas_npcs
+(
+  id_mapa INT IDENTITY NOT NULL,
+  id_npc INT NOT NULL,
+  coord_x INT NOT NULL,
+  coord_y INT NOT NULL,
+  CONSTRAINT PK_mapas_npcs PRIMARY KEY (id_mapa, id_npc),
+  CONSTRAINT FK_mapas_npcs_mapas FOREIGN KEY (id_mapa) REFERENCES mapas(id_mapa),
+  CONSTRAINT FK_mapas_npcs_npcs FOREIGN KEY (id_npc) REFERENCES npcs(id_npc)
+);
+
+CREATE TABLE inventarios_items
+(
+  id_inventario INT NOT NULL,
+  id_item INT NOT NULL,
+  slot INT NOT NULL,
+  cantidad INT NOT NULL,
+  CONSTRAINT PK_inventarios_items PRIMARY KEY (id_inventario, id_item),
+  CONSTRAINT FK_inventarios_items_inventarios FOREIGN KEY (id_inventario) REFERENCES inventarios(id_inventario),
+  CONSTRAINT FK_inventarios_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
+);
