@@ -18,7 +18,7 @@ CREATE TABLE categorias
   descripcion VARCHAR(100),
   CONSTRAINT PK_categorias PRIMARY KEY (id_categoria)
 );
-
+--observacion del profesor
 CREATE TABLE inventarios
 (
   id_inventario INT IDENTITY NOT NULL,
