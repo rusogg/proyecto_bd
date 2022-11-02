@@ -94,6 +94,9 @@ CREATE TABLE tiendas_items
   CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
 );
 
+ALTER TABLE [dbo].[tiendas_items]
+ADD CONSTRAINT CK_slotLibreTienda CHECK (dbo.ComprobarSlots(id_tienda) > -1 )
+
 CREATE TABLE mapas_npcs
 (
   id_mapa INT NOT NULL,
