@@ -1,7 +1,7 @@
 --CREATE DATABASE bd_juego_g9
 --DROP DATABASE bd_juego_g9
 
---USE bd_juego_g9
+USE bd_juego_g9
 
 
 CREATE TABLE tiendas

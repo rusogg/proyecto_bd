@@ -17,7 +17,7 @@ GO
 --Procedimientos
 
 --Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
-ALTER FUNCTION ComprobarSlots(@Idt as int)
+CREATE FUNCTION ComprobarSlots(@Idt as int)
 RETURNS int
 AS 
 BEGIN
@@ -62,7 +62,7 @@ select * from CuentaPersonajesDetalles
 	--Fuerza 50
 	--Agilidad 100
 	--Magia 0
-
+GO
 CREATE TRIGGER InstanciarEstadisticas
 ON personajes FOR INSERT AS
 BEGIN 
@@ -104,10 +104,24 @@ GO
 
 
 --Vista personajes y NPCS en mapa
-
+GO 
+CREATE VIEW npcsView
+AS
+SELECT np.id_npc,tp.nombre_tipo,np.nombre_npc,np.estatico
+FROM npcs np
+INNER JOIN npcs_tipos tp
+ON np.id_tipo = tp.id_tipo
+GO
+--select * from npcsView
+CREATE VIEW npcsBoss
+AS
+Select * from npcsView WHERE nombre_tipo='Boss' 
+GO
+Select * from npcsBoss
 --Vista personajes en una cuenta
 
 --Vista NPCS BOSS
+
 
 --Vista personajes conectados
 
