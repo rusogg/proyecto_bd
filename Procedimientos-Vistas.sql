@@ -1,4 +1,3 @@
---Vistas
 
 --Vista de items con sus respectivas tiendas
 ALTER VIEW ArticulosEnTiendas
@@ -13,19 +12,6 @@ INNER JOIN categorias c
 ON i.id_categoria = c.id_categoria
 --WHERE t.id_tienda = 1
 GO 
-
---Procedimientos
-
---Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
-CREATE FUNCTION ComprobarSlots(@Idt as int)
-RETURNS int
-AS 
-BEGIN
-   DECLARE @retval int
-   SELECT @retval = (SELECT cant_slots FROM tiendas where id_tienda = @Idt) - (SELECT COUNT(*) FROM ArticulosEnTiendas WHERE ArticulosEnTiendas.idTienda = @Idt)
-   RETURN @retval
-END;
-GO
 
 --Vista de los personajes de las cuenta
 CREATE VIEW CuentaPersonajes
@@ -46,22 +32,14 @@ INNER JOIN CuentaPersonajes cp
 ON pe.id_personaje = cp.id_personaje
 GO
 
-select * from CuentaPersonajes 
-select * from CuentaPersonajesDetalles
+--select * from CuentaPersonajes 
+--select * from CuentaPersonajesDetalles
 
 --INSTANCIA LAS ESTADISTICAS POR DEFAULT AL MOMENTO DE CREAR UN NUEVO PERSONAJE
---Mago
-	--Fuerza 25
-	--Agilidad 50
-	--Magia 100
---Guerrero
-	--Fuerza 100
-	--Agilidad 50
-	--Magia 0
---Arquero
-	--Fuerza 50
-	--Agilidad 100
-	--Magia 0
+--Mago: Fuerza 25, Agilidad 50, Magia 100
+--Guerrero: Fuerza 100, Agilidad 50, Magia 0
+--Arquero: Fuerza 50, Agilidad 100, Magia 0
+
 GO
 CREATE TRIGGER InstanciarEstadisticas
 ON personajes FOR INSERT AS
@@ -90,21 +68,6 @@ BEGIN
 END
 GO
 
-
---CK_Personaje_Items...
---Un personaje no puede tener en su inventario un item que no pertenezca a su categoria
-
-
---CK_StockItem_Tienda...
---Control de stock de los items en la tienda(cantidad disponible)
-
-
---DF_Estadisticas_Segun_ClasePersonaje
---Valores por defecto al crear un personaje, dependiendo la clase del mismo
-
-
---Vista personajes y NPCS en mapa
-GO 
 CREATE VIEW npcsView
 AS
 SELECT np.id_npc,tp.nombre_tipo,np.nombre_npc,np.estatico
@@ -118,10 +81,30 @@ AS
 Select * from npcsView WHERE nombre_tipo='Boss' 
 GO
 Select * from npcsBoss
---Vista personajes en una cuenta
 
---Vista NPCS BOSS
 
+
+
+--COSAS POR HACER E IDEAS
+--CK_Personaje_Items...
+--Un personaje no puede tener en su inventario un item que no pertenezca a su categoria
+
+
+--CK_StockItem_Tienda...
+--Control de stock de los items en la tienda(cantidad disponible)
+
+
+--TRIGGER INSTANCIAR ESTADISTICAS POR DEFAULT (LISTO)
+--Valores por defecto al crear un personaje, dependiendo la clase del mismo
+
+
+--Vista personajes y NPCS en mapa
+
+--Vista personajes en una cuenta (LISTO)
+
+--Vista NPCS  (LISTO)
+
+--Vista NPCS BOSS (LISTO)
 
 --Vista personajes conectados
 
@@ -189,7 +172,6 @@ Select * from npcsBoss
 
 --Backup y restauración.
 -- Backup diarios de algunas tablas y uno semanal de la base completa
-
 
 
 --COSAS POR HACER

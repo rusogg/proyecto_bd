@@ -94,6 +94,19 @@ CREATE TABLE tiendas_items
   CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
 );
 
+--Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
+CREATE FUNCTION ComprobarSlots(@Idt as int)
+RETURNS int
+AS 
+BEGIN
+   DECLARE @retval int
+   SELECT @retval = (SELECT cant_slots FROM tiendas where id_tienda = @Idt) - (SELECT COUNT(*) FROM ArticulosEnTiendas WHERE ArticulosEnTiendas.idTienda = @Idt)
+   RETURN @retval
+END;
+GO
+
+--Crear el procediminto antes de ejecutar el Alter Table
+
 ALTER TABLE [dbo].[tiendas_items]
 ADD CONSTRAINT CK_slotLibreTienda CHECK (dbo.ComprobarSlots(id_tienda) > -1 )
 
