@@ -29,3 +29,157 @@ BEGIN
    RETURN @retval
 END;
 GO
+
+
+--CK_Personaje_Items...
+--Un personaje no puede tener en su inventario un item que no pertenezca a su categoria
+
+
+--CK_StockItem_Tienda...
+--Control de stock de los items en la tienda(cantidad disponible)
+
+
+--DF_Estadisticas_Segun_ClasePersonaje
+--Valores por defecto al crear un personaje, dependiendo la clase del mismo
+
+
+--Vista personajes y NPCS en mapa
+
+--Vista personajes en una cuenta
+
+--Vista NPCS BOSS
+
+--Vista personajes conectados
+
+--Vista Items con sus estadisticas
+--Listado de todos los items con sus estadisticas y categorias
+
+--Vista Inventario Personaje
+----Listado de todos los items en el inventario del pesonaje con sus estadisticas y categorias 
+--(se puede utilizar la vista de items) y filtar 
+
+--CK_NivelMax
+--Nivel maximo del personaje (100)
+
+--Estado en cuenta (Eliminacion Logica)
+--Agregar como atributo en cuenta
+--estado bit 
+
+--Vista de cuentas activas o Eliminadas
+--Vista Activos
+	--where estado = 1
+--Vista No Activos
+	--where estado = 0
+
+--Estado Online en Personaje
+--estado_online bit
+--Vista Activos
+	--where estado = 1
+--Vista No Activos
+	--where estado = 0
+
+--DF_EstadoActivoCuenta
+--Estado activo en cuenta
+
+--DF_SlotInventario
+--Cantidad de espacio disponible (5)
+
+
+--Temas técnicos de trabajo
+
+--Transacciones 
+--Pasos para la compra
+	--Control de stock en la tienda...
+	--Espacio libre en Inventario personaje
+	--Oro mayor al total...
+
+--Si la compra se realizo correctamente...
+--Triggers
+	--Descontar Stock en Tienda
+		--Si cantidad de items en tienda es 0 se elimina de la tienda
+	--Descontar Oro
+	--Aumentar el espacio en inventario y se agrega el item
+
+
+--Vistas. (completo)
+
+--Permisos. 
+--Admin (MANEJO DE TABLAS (CREAR - ELIMINAR - ACTUALIZAR)
+--DEV (READ - AGREGAR REGISTROS - ACTUALIZAR REGISTROS)
+--
+
+--Manejo de datos multimediales en bases de datos relacionales
+--Imagen de Perfil en Cuenta (Insertar enlace como imagen)
+--https://cloudinary.com/
+--Agregar url_imagenPerfil en cuenta (String)
+
+--Backup y restauración.
+-- Backup diarios de algunas tablas y uno semanal de la base completa
+
+
+
+--COSAS POR HACER
+
+--CREAR TABLAS COMPRA Y DETALLE
+-- Realizar la transaccion con los triggers
+
+--Añadir atributo eliminaciones logicas en Cuenta y Personaje
+--Generar vistas de activos en Cuenta y Personaje
+--DF_EstadoActivoCuenta
+
+--Generar vistas (Ya se pueden realizar)
+--Vista personajes y NPCS en mapa
+--Vista personajes en una cuenta
+--Vista NPCS BOSS
+--Vista Items con sus estadisticas
+--Vista Inventario Personaje
+
+
+--CHECKS
+--CK_NivelMax
+--CK_Personaje_Items
+--CK_StockItem_Tienda
+--DF_SlotInventario
+--DF_Estadisticas_Segun_ClasePersonaje
+
+
+--Manejo de datos multimediales en bases de datos relacionales
+--Imagen de Perfil en Cuenta (Insertar enlace como imagen)
+	--Agregar url_imagenPerfil en cuenta (String)
+
+--Backup y restauración.
+-- Backup diarios de algunas tablas y uno semanal de la base completa
+
+
+
+--COMPLETAR EL INFORME
+
+--CAPITULO I
+	--c. Objetivo del Trabajo Práctico.
+		--Responde a la pregunta ¿para qué realizo el Trabajo Práctico? ¿Qué puede esperar el lector
+		--del trabajo que voy a realizar? En este nivel se deben especificar los
+		--i. Objetivos Generales.
+		--Resultado general esperado con el trabajo. El objetivo general debe
+		--responder al Problema principal.
+		--ii. Objetivos Específicos.
+		--Resultados particulares esperados. Guardan relación con las preguntas
+		--expresadas al inicio del Capítulo. 
+--CAPITULO II
+--(Marco teórico. Acá se debe explicar brevemente los conceptos sobre los temas técnicos de los motores de bases de datos que se asignó a cada grupo)
+
+--CAPITULO III
+--(metodología / herramientas)
+
+
+	--Metodologia
+		--Descripción de cómo se realizó el Trabajo Práctico.
+	--Herramientas
+		--Motor de base datos (todo lo relacionado)
+		--Git
+		--Github
+--CAPITULO IV
+--Entidades
+--(descripción de las tablas)
+
+--Diccionario de datos
+--(descripción de los atributos de cada tabla)
