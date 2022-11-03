@@ -14,9 +14,6 @@ ON i.id_categoria = c.id_categoria
 --WHERE t.id_tienda = 1
 GO 
 
-
-
-
 --Procedimientos
 
 --Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
@@ -28,6 +25,69 @@ BEGIN
    SELECT @retval = (SELECT cant_slots FROM tiendas where id_tienda = @Idt) - (SELECT COUNT(*) FROM ArticulosEnTiendas WHERE ArticulosEnTiendas.idTienda = @Idt)
    RETURN @retval
 END;
+GO
+
+--Vista de los personajes de las cuenta
+CREATE VIEW CuentaPersonajes
+AS 
+SELECT pe.id_usuario, pe.id_personaje, pe.nombre_personaje, cl.nombre_clase as 'Clase'
+FROM personajes pe
+INNER JOIN clases cl
+ON pe.id_clase = cl.id_clase
+GO
+--Vista de los personajes de en las cuenta con sus detalles
+CREATE VIEW CuentaPersonajesDetalles
+AS
+SELECT pe.id_usuario, pe.id_personaje,cp.nombre_personaje,cp.Clase,es.nivel,es.experiencia,pe.oro,pe.mana,es.vida,es.fuerza,es.agilidad,es.magia
+FROM personaje_estadistica pe
+INNER JOIN estadisticas es
+ON pe.id_estadistica = es.id_estadistica
+INNER JOIN CuentaPersonajes cp 
+ON pe.id_personaje = cp.id_personaje
+GO
+
+select * from CuentaPersonajes 
+select * from CuentaPersonajesDetalles
+
+--INSTANCIA LAS ESTADISTICAS POR DEFAULT AL MOMENTO DE CREAR UN NUEVO PERSONAJE
+--Mago
+	--Fuerza 25
+	--Agilidad 50
+	--Magia 100
+--Guerrero
+	--Fuerza 100
+	--Agilidad 50
+	--Magia 0
+--Arquero
+	--Fuerza 50
+	--Agilidad 100
+	--Magia 0
+
+CREATE TRIGGER InstanciarEstadisticas
+ON personajes FOR INSERT AS
+BEGIN 
+	DECLARE @idUsuario INT
+	DECLARE @IdPersonaje INT
+	DECLARE @idClase int
+	DECLARE @IdEstadistica INT
+	SELECT @idUsuario = INSERTED.id_usuario
+	FROM INSERTED
+	SELECT @IdPersonaje = INSERTED.id_personaje
+	FROM INSERTED
+
+	--Instanciar una estadistica
+	IF (SELECT INSERTED.id_clase from INSERTED) = 1
+		INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,0,0,50,100,0);
+	ELSE IF (SELECT INSERTED.id_clase from INSERTED) = 2
+		INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,0,0,100,50,0);
+	ELSE IF (SELECT INSERTED.id_clase from INSERTED) = 3
+		INSERT INTO estadisticas(vida,nivel,experiencia,fuerza,agilidad,magia) VALUES (100,0,0,50,100,0);
+	--Almaceno el id de la estadistica 
+	SELECT @IdEstadistica = id_estadistica FROM estadisticas WHERE id_estadistica=(SELECT max(id_estadistica) FROM estadisticas);
+	--Instaciar personaje_estadistica
+
+	INSERT INTO personaje_estadistica(id_usuario,id_personaje,id_estadistica,oro,mana) VALUES (@idUsuario,@IdPersonaje,@IdEstadistica,100,100);
+END
 GO
 
 
