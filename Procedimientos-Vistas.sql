@@ -1,6 +1,6 @@
 
 --Vista de items con sus respectivas tiendas
-ALTER VIEW ArticulosEnTiendas
+CREATE OR ALTER VIEW ArticulosEnTiendas
 AS 
 SELECT t.id_tienda as 'idTienda', t.cant_slots as 'Slots', t.nombre as 'Nombre Tienda',i.nombre as 'Articulo',c.titulo_categoria as 'Categoria',ti.precio,ti.cantidad
 FROM tiendas_items ti
@@ -14,7 +14,7 @@ ON i.id_categoria = c.id_categoria
 GO 
 
 --Vista de los personajes de las cuenta
-CREATE VIEW CuentaPersonajes
+CREATE OR ALTER VIEW CuentaPersonajes
 AS 
 SELECT pe.id_usuario, pe.id_personaje, pe.nombre_personaje, cl.nombre_clase as 'Clase'
 FROM personajes pe
@@ -22,7 +22,7 @@ INNER JOIN clases cl
 ON pe.id_clase = cl.id_clase
 GO
 --Vista de los personajes de en las cuenta con sus detalles
-CREATE VIEW CuentaPersonajesDetalles
+CREATE OR ALTER VIEW CuentaPersonajesDetalles
 AS
 SELECT pe.id_usuario, pe.id_personaje,cp.nombre_personaje,cp.Clase,es.nivel,es.experiencia,pe.oro,pe.mana,es.vida,es.fuerza,es.agilidad,es.magia
 FROM personaje_estadistica pe
@@ -41,7 +41,7 @@ GO
 --Arquero: Fuerza 50, Agilidad 100, Magia 0
 
 GO
-CREATE TRIGGER InstanciarEstadisticas
+CREATE OR ALTER TRIGGER InstanciarEstadisticas
 ON personajes FOR INSERT AS
 BEGIN 
 	DECLARE @idUsuario INT
@@ -68,7 +68,7 @@ BEGIN
 END
 GO
 
-CREATE VIEW npcsView
+CREATE OR ALTER VIEW npcsView
 AS
 SELECT np.id_npc,tp.nombre_tipo,np.nombre_npc,np.estatico
 FROM npcs np
@@ -76,14 +76,14 @@ INNER JOIN npcs_tipos tp
 ON np.id_tipo = tp.id_tipo
 GO
 --select * from npcsView
-CREATE VIEW npcsBoss
+CREATE OR ALTER VIEW npcsBoss
 AS
 Select * from npcsView WHERE nombre_tipo='Boss' 
 GO
 Select * from npcsBoss
 
 --Vista de los usuarios con sus items en inventario
-ALTER VIEW usuPer_Items
+CREATE OR ALTER usuPer_Items
 AS
 	SELECT pr.id_usuario, pr.id_personaje,i.cant_slots,i.id_item,i.slot, it.nombre FROM 
 	(
@@ -99,7 +99,7 @@ GO
 --SELECT* FROM usuPer_Items
 
 --Vista de los items con sus caracteristicas
-CREATE VIEW itemsCaracteristicas
+CREATE OR ALTER VIEW itemsCaracteristicas
 AS
 	SELECT it.id_item, it.nombre, ei.agilidad,ei.fuerza,ei.magia,ei.poder_ataque,ei.poder_defensa,ei.poder_magico FROM items_estadistica_item ie
 	inner join items it
@@ -108,7 +108,7 @@ AS
 	on ie.id_estadistica_item = ei.id_estadistica_item
 GO
 --Vista de los personajes con sus items con sus respectivas caracteristicas
-CREATE VIEW personajeItems
+CREATE OR ALTER VIEW personajeItems
 as
 SELECT ui.id_usuario, ui.id_personaje,ui.slot, itc.nombre, itc.agilidad, itc.fuerza, itc.magia, itc.poder_ataque, itc.poder_defensa, itc.poder_magico FROM usuPer_Items ui
 inner join itemsCaracteristicas itc
@@ -116,7 +116,7 @@ on ui.id_item = itc.id_item
 go
 
 --funcion para filtrar los items de cada personaje y usuario
-ALTER FUNCTION GetinventarioPer(@id_usu as int,@id_per as int)
+CREATE OR ALTER FUNCTION GetinventarioPer(@id_usu as int,@id_per as int)
 RETURNS TABLE  
 AS  
 RETURN  SELECT * FROM personajeItems where id_usuario=@id_usu and id_personaje=@id_per
