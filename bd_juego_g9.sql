@@ -36,6 +36,8 @@ CREATE TABLE cuentas
   CONSTRAINT PK_cuentas PRIMARY KEY (id_usuario),
   CONSTRAINT UQ_nombre_usuario UNIQUE (nombre_usuario)
 );
+ALTER TABLE cuentas
+ADD estado BIT NOT NULL DEFAULT 1
 
 CREATE TABLE mapas
 (
@@ -95,7 +97,7 @@ CREATE TABLE tiendas_items
 );
 
 --Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
-CREATE FUNCTION ComprobarSlots(@Idt as int)
+CREATE OR ALTER FUNCTION ComprobarSlots(@Idt as int)
 RETURNS int
 AS 
 BEGIN
@@ -145,6 +147,10 @@ CREATE TABLE personajes
   CONSTRAINT FK_personajes_clases FOREIGN KEY (id_clase) REFERENCES clases(id_clase),
   CONSTRAINT FK_personajes_inventarios FOREIGN KEY (id_inventario) REFERENCES inventarios(id_inventario)
 );
+
+ALTER TABLE personajes
+ADD estado_online BIT NOT NULL DEFAULT 1
+
 
 CREATE TABLE mapas_personajes
 (
