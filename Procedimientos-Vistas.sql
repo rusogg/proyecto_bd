@@ -82,7 +82,46 @@ Select * from npcsView WHERE nombre_tipo='Boss'
 GO
 Select * from npcsBoss
 
+--Vista de los usuarios con sus items en inventario
+ALTER VIEW usuPer_Items
+AS
+	SELECT pr.id_usuario, pr.id_personaje,i.cant_slots,i.id_item,i.slot, it.nombre FROM 
+	(
+		SELECT ini.id_inventario,ini.id_item, ini.slot, inv.cant_slots FROM inventarios_items ini
+		INNER JOIN inventarios inv
+		ON ini.id_inventario = inv.id_inventario 
+	) i
+	INNER JOIN personajes pr 
+	ON i.id_inventario = pr.id_inventario
+	INNER JOIN items it
+	ON i.id_item = it.id_item
+GO
+--SELECT* FROM usuPer_Items
 
+--Vista de los items con sus caracteristicas
+CREATE VIEW itemsCaracteristicas
+AS
+	SELECT it.id_item, it.nombre, ei.agilidad,ei.fuerza,ei.magia,ei.poder_ataque,ei.poder_defensa,ei.poder_magico FROM items_estadistica_item ie
+	inner join items it
+	on ie.id_item = it.id_item
+	INNER JOIN estadisticas_item ei
+	on ie.id_estadistica_item = ei.id_estadistica_item
+GO
+--Vista de los personajes con sus items con sus respectivas caracteristicas
+CREATE VIEW personajeItems
+as
+SELECT ui.id_usuario, ui.id_personaje,ui.slot, itc.nombre, itc.agilidad, itc.fuerza, itc.magia, itc.poder_ataque, itc.poder_defensa, itc.poder_magico FROM usuPer_Items ui
+inner join itemsCaracteristicas itc
+on ui.id_item = itc.id_item
+go
+
+--funcion para filtrar los items de cada personaje y usuario
+ALTER FUNCTION GetinventarioPer(@id_usu as int,@id_per as int)
+RETURNS TABLE  
+AS  
+RETURN  SELECT * FROM personajeItems where id_usuario=@id_usu and id_personaje=@id_per
+
+--SELECT * FROM GetinventarioPer(1,2)
 
 
 --COSAS POR HACER E IDEAS
