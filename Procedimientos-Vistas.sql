@@ -141,4 +141,47 @@ AS
 	SELECT * FROM personajes
 	where estado_online = 0
 GO
+--VISTA DE UBICACION DE NPC EN EL MAPA 
+CREATE VIEW npc_mapa
+AS
+SELECT mn.id_npc 'id npc',n.nombre_npc 'nombre',mn.id_mapa 'id mapa',m.nombre_mapa 'nombre de mapa', CONCAT(mn.coord_x,'-',mn.coord_y) 'cordenada' FROM mapas_npcs mn
+INNER JOIN npcs n
+ON mn.id_npc = n.id_npc
+INNER JOIN mapas m
+ON mn.id_mapa = m.id_mapa
+GO
+
+--BACKUP Y RESTAURACION 
+
+--backup completo
+BACKUP DATABASE bd_juego_g9
+TO DISK = 'C:\data\bd_juego_g9.bak'
+WITH NAME = 'BACKUPCOMPLETO'
+GO
+
+--backup diferencial
+BACKUP DATABASE  bd_juego_g9
+TO DISK = 'C:\data\bd_juego_g9.bak'
+WITH DIFFERENTIAL
+GO
+
+
+--Informacion de los backup dentro del archivo .bak 
+RESTORE HEADERONLY 
+FROM DISK = 'C:\data\bd_juego_g9.bak'
+
+--procedimiento de creacion de backup
+CREATE PROC copiaBD @bd VARCHAR(20),@nomcopia VARCHAR(30)
+AS
+DECLARE @procedimiento VARCHAR(100)
+SET @procedimiento='backup database '+@bd +' to disk=' +CHAR(39)+'C:\data\'+@nomcopia+'.bak'+char(39)
+EXEC (@procedimiento)
+GO
+
+---------RESTORE DE BACKUP COMPLETO 
+--RESTORE DATABASE bd_juego_g9 FROM DISK= 'C:\data\bd_juego_g9.bak'
+
+
+
+copiaBD 'bd_juego_g9','copia12r'
 
