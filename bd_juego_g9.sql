@@ -38,6 +38,8 @@ CREATE TABLE cuentas
 );
 ALTER TABLE cuentas
 ADD estado BIT NOT NULL DEFAULT 1
+ALTER TABLE cuentas
+ADD url_img_perfil VARCHAR NOT NULL DEFAULT 'url'
 
 CREATE TABLE mapas
 (
