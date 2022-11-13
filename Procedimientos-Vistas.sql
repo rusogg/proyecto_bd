@@ -180,6 +180,8 @@ GO
 
 ---------RESTORE DE BACKUP COMPLETO 
 --RESTORE DATABASE bd_juego_g9 FROM DISK= 'C:\data\bd_juego_g9.bak'
+
+---------Creacion de usuarios y roles  
 --usuario dev
 --puede hacer select a todas las tablas de la base 
 CREATE LOGIN logDEV WITH PASSWORD = '1234'
