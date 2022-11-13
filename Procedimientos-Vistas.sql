@@ -180,7 +180,26 @@ GO
 
 ---------RESTORE DE BACKUP COMPLETO 
 --RESTORE DATABASE bd_juego_g9 FROM DISK= 'C:\data\bd_juego_g9.bak'
-
+--usuario dev
+--puede hacer select a todas las tablas de la base 
+CREATE LOGIN logDEV WITH PASSWORD = '1234'
+CREATE USER dev FOR LOGIN logDEV
+ALTER ROLE db_datareader ADD member dev
+--usuario admin
+--pueden ejecutar cualquier comando del lenguaje de definición de datos (DDL) en una base de datos. 
+CREATE LOGIN logAdmin WITH PASSWORD = '1234'
+CREATE USER admi FOR LOGIN logAdmin
+ALTER ROLE db_ddladmin ADD member admi
+--usuario backup
+-- pueden crear copias de seguridad de la base de datos.
+CREATE LOGIN logBack WITH PASSWORD = '1234'
+CREATE USER back FOR LOGIN logBack
+ALTER ROLE db_backupoperator ADD member back
+--usuario de seguridad
+-- ueden modificar la pertenencia a roles únicamente para roles personalizados y administrar permisos.
+CREATE LOGIN logSeguridad WITH PASSWORD = '1234'
+CREATE USER seguridad FOR LOGIN logSeguridad
+ALTER ROLE db_securityadmin ADD member seguridad
 
 
 copiaBD 'bd_juego_g9','copia12r'
