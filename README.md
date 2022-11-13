@@ -49,7 +49,8 @@ Con estas características cubiertas de base, podríamos ir ampliando a futuro c
 
 ## **CAPITULO III**
 
-(metodología / herramientas)
+Usamos como metodologia reuniones en la plataforma Google MEET, donde pactabamos las tareas que hacian falta para el proyecto. Luego ese listado de tareas lo subiamos a la plataforma TRELLO, donde cada colaborador podia asignarse tareas, las cuales se dividian en "En proceso" "Finalizados, por subir" "Finalizados, subidos".
+Para que cada colaborador pudiera hacer y ver los cambios de los otros en el proyecto, optamos por la plataforma de GitHub.
 
 ## **CAPITULO IV**
 
