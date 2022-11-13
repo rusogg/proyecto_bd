@@ -176,6 +176,10 @@ CREATE TABLE estadisticas
   CONSTRAINT PK_Estadisticas PRIMARY KEY (id_estadistica),
 )
 
+ALTER TABLE estadisticas
+ADD CONSTRAINT CK_NivelMax CHECK(nivel <= 100)
+
+
 CREATE TABLE estadisticas_item
 (
   id_estadistica_item INT IDENTITY NOT NULL,
