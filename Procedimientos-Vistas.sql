@@ -178,6 +178,8 @@ SET @procedimiento='backup database '+@bd +' to disk=' +CHAR(39)+'C:\data\'+@nom
 EXEC (@procedimiento)
 GO
 
+copiaBD 'bd_juego_g9','copia12r'
+
 ---------RESTORE DE BACKUP COMPLETO 
 --RESTORE DATABASE bd_juego_g9 FROM DISK= 'C:\data\bd_juego_g9.bak'
 
@@ -204,5 +206,5 @@ CREATE USER seguridad FOR LOGIN logSeguridad
 ALTER ROLE db_securityadmin ADD member seguridad
 
 
-copiaBD 'bd_juego_g9','copia12r'
+
 
