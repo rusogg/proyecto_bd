@@ -77,4 +77,17 @@ Diccionario de datos (descripción de los atributos de cada tabla)
 
 (material de lectura/consulta que se utilizó para el desarrollo del trabajo)
 
-ANEXO Videos Script SQL Documentación complementaria
+### ANEXO Videos Script SQL Documentación complementaria
+
+
+https://learn.microsoft.com/es-es/sql/t-sql/statements/statements?view=sql-server-ver16
+
+https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/create-a-full-database-backup-sql-server?view=sql-server-ver16
+
+https://learn.microsoft.com/en-us/sql/t-sql/statements/create-login-transact-sql?view=sql-server-ver16
+
+https://learn.microsoft.com/en-us/sql/t-sql/statements/create-user-transact-sql?view=sql-server-ver16
+
+https://learn.microsoft.com/es-es/sql/t-sql/language-elements/transactions-transact-sql?view=sql-server-ver16
+
+https://learn.microsoft.com/es-es/sql/t-sql/statements/create-procedure-transact-sql?view=sql-server-ver16
