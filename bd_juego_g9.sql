@@ -3,6 +3,16 @@
 
 USE bd_juego_g9
 
+--Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
+CREATE OR ALTER FUNCTION ComprobarSlots(@Idt as int)
+RETURNS int
+AS 
+BEGIN
+   DECLARE @retval int
+   SELECT @retval = (SELECT cant_slots FROM tiendas where id_tienda = @Idt) - (SELECT COUNT(*) FROM ArticulosEnTiendas WHERE ArticulosEnTiendas.idTienda = @Idt)
+   RETURN @retval
+END;
+GO
 
 CREATE TABLE tiendas
 (
@@ -97,17 +107,6 @@ CREATE TABLE tiendas_items
   CONSTRAINT FK_tiendas_items_tiendas FOREIGN KEY (id_tienda) REFERENCES tiendas(id_tienda),
   CONSTRAINT FK_tiendas_items_items FOREIGN KEY (id_item) REFERENCES items(id_item)
 );
-
---Comprobar disponibilidad de slots de la tienda para ingresar items en la misma
-CREATE OR ALTER FUNCTION ComprobarSlots(@Idt as int)
-RETURNS int
-AS 
-BEGIN
-   DECLARE @retval int
-   SELECT @retval = (SELECT cant_slots FROM tiendas where id_tienda = @Idt) - (SELECT COUNT(*) FROM ArticulosEnTiendas WHERE ArticulosEnTiendas.idTienda = @Idt)
-   RETURN @retval
-END;
-GO
 
 --Crear el procediminto antes de ejecutar el Alter Table
 
