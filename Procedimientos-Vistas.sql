@@ -207,4 +207,169 @@ ALTER ROLE db_securityadmin ADD member seguridad
 
 
 
+GO
+copiaBD 'bd_juego_g9','copia12r'
+
+
+--Transacciones
+GO
+--Funcion para obtener el item en uso de un personaje
+CREATE OR ALTER FUNCTION itemEnUso(
+@id_usu int, 
+@id_per int)
+RETURNS TABLE
+AS
+RETURN (SELECT  inv.id_usuario, inv.id_personaje,inv.slot,inv.nombre,inv.agilidad,inv.fuerza,inv.magia,pr.nombre_personaje,pr.id_clase, pr.id_inventario,pr.item FROM  GetinventarioPer(@id_usu,@id_per) inv
+	INNER JOIN personajes pr
+	ON inv.id_usuario = pr.id_usuario and inv.id_personaje = pr.id_personaje
+	where inv.slot = pr.item)
+GO
+SELECT * FROM itemEnUso(1,1);
+GO
+
+--Transaccion para actualizar las estasticas dependiendo del item que esta usando el personaje
+CREATE or Alter PROCEDURE ActualizarEstadistica 
+@id_usu as int, 
+@id_per as int 
+AS
+BEGIN TRANSACTION
+	DECLARE @magia1 int
+	DECLARE @fuerza1 int
+	DECLARE @agilidad1 int
+	BEGIN TRY
+		BEGIN TRAN
+			IF (SELECT COUNT(*) from itemEnUso(@id_usu,@id_per)) > 0
+			BEGIN
+					SELECT @magia1 = magia FROM itemEnUso(@id_usu,@id_per)
+					SELECT @fuerza1 = fuerza FROM itemEnUso(@id_usu,@id_per) 
+					SELECT @agilidad1 = agilidad FROM itemEnUso(@id_usu,@id_per)
+					COMMIT TRANSACTION
+						SELECT * FROM [dbo].[personaje_estadistica] pe
+						inner join estadisticas es
+						on pe.id_estadistica = es.id_estadistica 
+						where id_usuario = @id_usu and id_personaje = @id_per
+					UPDATE estadisticas
+					set magia =(magia+ @magia1), fuerza = (fuerza+@fuerza1), agilidad = (agilidad+@agilidad1)
+					where id_estadistica = (SELECT id_estadistica FROM [dbo].[personaje_estadistica] where id_usuario = @id_usu and id_personaje = @id_per)
+						SELECT * FROM [dbo].[personaje_estadistica] pe
+						inner join estadisticas es
+						on pe.id_estadistica = es.id_estadistica 
+						where id_usuario = @id_usu and id_personaje = @id_per
+					COMMIT TRANSACTION
+			END
+			ELSE
+				BEGIN
+					 PRINT 'No existe ese personaje. '
+				END
+	END TRY
+	BEGIN CATCH
+		IF @@tranCount > 0                        
+			ROLLBACK TRANSACTION
+			PRINT 'Ha ecorrido un error. '
+			--Se lo comunicamos al usuario y deshacemos la transacción
+			--todo volverá a estar como si nada hubiera ocurrido
+	END CATCH	
+go
+
+--Procedimiento para descontar las estadisticas al quitar el item del personaje
+CREATE or Alter PROCEDURE DescontarEstadistica 
+@id_usu as int, 
+@id_per as int 
+AS
+BEGIN TRANSACTION
+	DECLARE @magia1 int
+	DECLARE @fuerza1 int
+	DECLARE @agilidad1 int
+	BEGIN TRY
+		BEGIN TRAN
+			IF (SELECT COUNT(*) from itemEnUso(@id_usu,@id_per)) > 0
+			BEGIN
+					SELECT @magia1 = magia FROM itemEnUso(@id_usu,@id_per)
+					SELECT @fuerza1 = fuerza FROM itemEnUso(@id_usu,@id_per) 
+					SELECT @agilidad1 = agilidad FROM itemEnUso(@id_usu,@id_per)
+					COMMIT TRANSACTION
+						SELECT * FROM [dbo].[personaje_estadistica] pe
+						inner join estadisticas es
+						on pe.id_estadistica = es.id_estadistica 
+						where id_usuario = @id_usu and id_personaje = @id_per
+					UPDATE estadisticas
+					set magia =(magia- @magia1), fuerza = (fuerza-@fuerza1), agilidad = (agilidad-@agilidad1)
+					where id_estadistica = (SELECT id_estadistica FROM [dbo].[personaje_estadistica] where id_usuario = @id_usu and id_personaje = @id_per)
+						SELECT * FROM [dbo].[personaje_estadistica] pe
+						inner join estadisticas es
+						on pe.id_estadistica = es.id_estadistica 
+						where id_usuario = @id_usu and id_personaje = @id_per
+					COMMIT TRANSACTION
+			END 
+			ELSE
+				BEGIN
+					 PRINT 'No existe ese personaje. '
+				END
+	END TRY
+	BEGIN CATCH
+		IF @@tranCount > 0                        
+			ROLLBACK TRANSACTION
+			PRINT 'Ha ecorrido un error. '
+			--Se lo comunicamos al usuario y deshacemos la transacción
+			--todo volverá a estar como si nada hubiera ocurrido
+	END CATCH	
+go
+
+--execute dbo.ActualizarEstadistica 1,2;
+--execute dbo.DescontarEstadistica 1,2;
+go
+
+--Procedimiento para cambiar el item de un personaje
+CREATE OR ALTER PROCEDURE cambiarItem(
+@id_usu as INT, 
+@id_per AS INT, 
+@idItem AS int)
+AS BEGIN
+
+IF((SELECT dbo.HayItemInv(@id_usu,@id_per,@idItem))=1) --Controla si existe el item en su inventario
+	BEGIN
+		execute dbo.DescontarEstadistica @id_usu,@id_per; --Se resta las estadisticas para que no vuelva a sumar
+		UPDATE personajes
+		SET item = @idItem
+		WHERE personajes.id_usuario = @id_usu and personajes.id_personaje = @id_per --Actualiza el item en su poder
+		execute dbo.ActualizarEstadistica @id_usu,@id_per; --Suma a las estadisticas
+	END
+ELSE
+	BEGIN
+		PRINT 'No posee el item es su inventario. '
+	END
+END
+
+--Prueba para cambiar el item de un personaje
+--execute dbo.cambiarItem 1,2,3;
+
+--SELECT * FROM itemEnUso(1,2);
+--SELECT * FROM personajes
+--GO
+--SELECT * FROM [dbo].[personaje_estadistica] pe
+--inner join estadisticas es
+--on pe.id_estadistica = es.id_estadistica 
+--where id_usuario =1 and id_personaje = 2
+
+GO
+--Funcion para controlar si existe el item en su inventario
+CREATE OR ALTER FUNCTION HayItemInv(
+@id_usu as INT, 
+@id_per AS INT, 
+@idItem AS int)
+RETURNS BIT
+AS
+BEGIN
+	 RETURN (SELECT IIF(@idItem IN (SELECT * FROM  GetIdItemPer(@id_usu,@id_per)), 1, 0))
+END
+GO
+--SELECT id_item FROM  GetinventarioPer(1,2)
+--SELECT dbo.HayItemInv(1,2,3)
+--SELECT * FROM  GetIdItemPer(1,1)
+--SELECT * FROM personajes
+--SELECT * FROM  GetinventarioPer(1,2)
+--SELECT * IF 1 IN (SELECT * FROM  GetinventarioPer(1,2))
+
+
+
 
