@@ -45,7 +45,12 @@ Con estas características cubiertas de base, podríamos ir ampliando a futuro c
 
 ## **CAPITULO II**
 
-(Marco teórico. Acá se debe explicar brevemente los conceptos sobre los temas técnicos de los motores de bases de datos que se asignó a cada grupo)
+- Creamos un lote de datos e hicimos distintos tipos de operaciones para corroborar el correcto funcionamiento de la base con los distintos tipos de operaciones ABM.
+- En cuanto a triggers, tenemos uno en el que se instancian las estadisticas de un personaje al crearlo.
+- Poseemos una transaccion, que se encarga de actualizar las estadisticas de los personajes dependiendo del item equipado.
+- El modelo posee distintos tipos de vista, que serviran como por ejemplo, para ver la lista completa de personajes en una cuenta u obtener una lista detallada de items que existen en el juego.
+- A partir de las necesidades de cada usuario que va a acceder a la base de datos, tendran su respectivo rol. Con sus correspondientes permisos y restricciones.
+- La base de datos esta lista para realizar backups y restauraciones.
 
 ## **CAPITULO III**
 
