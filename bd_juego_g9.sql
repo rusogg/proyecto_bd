@@ -37,6 +37,9 @@ CREATE TABLE inventarios
   CONSTRAINT PK_inventarios PRIMARY KEY (id_inventario)
 );
 
+ALTER TABLE inventarios
+ADD DEFAULT 10 for cant_slots;
+
 CREATE TABLE cuentas
 (
   id_usuario int IDENTITY NOT NULL,
