@@ -61,7 +61,9 @@ Para que cada colaborador pudiera hacer y ver los cambios de los otros en el pro
 
 (implementación)
 
-Diagrama del Modelo de datos Der ![](RackMultipart20221112-1-cjhmkw_html_f9b9ac8a60a35b43.png)
+Diagrama del Modelo de datos Der 
+![image](https://user-images.githubusercontent.com/88750038/201694566-d86478dd-24e9-4c91-876b-e9587221a6aa.png)
+
 
 Entidades (descripción de las tablas)
 
