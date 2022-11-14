@@ -66,6 +66,44 @@ Diagrama del Modelo de datos Der
 
 
 Entidades (descripción de las tablas)
+Inventarios_Items: Tabla intermedia que relaciona los diferentes tipos de inventarios de personajes, con sus ítems (elemento a usar por el personaje).
+
+Inventarios: El inventario forma parte del personaje y es único para cada uno. En él se almacenan los ítems que posee dicho PJ.
+
+Ítems: Tabla de ítems donde se define un id clave para cada ítem además, su categoría, nombre y descripción. Estos pueden ser usados por personajes.
+
+Categoría: Tabla tipo de “Ítems”.
+
+Tiendas_Items: Tabla intermedia donde se relaciona cada ítem que puede ser adquirido por un personaje junto con las tiendas existentes en el juego.
+
+Tienda: Cada tienda donde el personaje podrá adquirir ítems. Posee su id, nombre y cantidad de slots disponibles.
+
+Items_Estadisticas_Items: Tabla intermedia que relaciona cada ítem con sus estadísticas. Estas varían a lo largo del juego. 
+
+Estadísticas_Items: Esta entidad almacena las características propias de cada ítem, como ser fuerza, agilidad, magia, etc., además de sus requerimientos necesarios que deberán tener los personajes para utilizar el ítem.
+
+Cuentas: Cada usuario tendrá una cuenta con su id propio, nombre e “Ip” de usuario. También posee un estado para diferir cuentas activas o dadas de baja. Un usuario o cuenta podrá tener más de un personaje.
+
+Personajes: Tiene asociado una cuenta única, una clase tipo, un inventario propio y un estado (Online, Offline).
+
+Clases: Tabla tipo de la clase personaje.
+
+Personaje_estadistica: Tabla intermedia donde se relaciona a cada personaje con sus estadísticas.
+
+Npcs: Se definen npcs con características propias.
+
+Npcs_tipos: Tabla tipo de Npcs.
+
+Estadisticas_npcs: Tabla intermedia donde se relaciona a cada Npc con sus estadísticas.
+
+Estadísticas: En esta entidad se almacenan estadísticas de cada jugador (npc o personaje) que evolucionan a lo largo del juego. De esta manera un personaje puede sumar estadísticas suficientes para utilizar nuevos ítems.
+
+Mapas: Se definen los mapas con sus tamaños.
+
+Mapas_npcs: Tabla intermedia donde se relaciona a los npcs con mapas y se le asigna una ubicación que es almacenada por medio de coordenadas.
+
+Mapas_personajes: Tabla intermedia que relaciona a los personajes con los mapas, guardando su ubicación en coordenadas.
+
 
 Diccionario de datos (descripción de los atributos de cada tabla)
 
