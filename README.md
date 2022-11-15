@@ -107,6 +107,129 @@ Entidades (descripción de las tablas)
 
 Diccionario de datos (descripción de los atributos de cada tabla)
 
+•	Tabla: Cuentas
+        id_usuario [int]: Id, clave primaria
+        nombre_usuario [varchar(100)]: Nombre de usuario.
+        contra [varchar(100)]: Contraseña
+        ip_usuario [varchar(100)]: Ip del usuario.
+        estado [bit]: 1 para activo, 0 para inactivo.
+        url_img_perfil [varchar]: Imagen de perfil.
+
+•	Tabla: Personajes
+        id_usuario [int]: Clave primaria compuesta.
+        id_personaje [int]: Clave primaria compuesta.
+        nombre_personaje [varchar(100)]: Nombre del personaje
+        id_clase [int]: Clave foránea (clase).
+        id_inventario [int]: Clave foránea (inventario).
+        estado_online [int]: Atributo para definir el estado de un personaje, online y offline.
+
+•	Tabla: Clases. Tabla tipo de Personajes
+        id_clase [int]: Id, clave primaria.
+        nombre_clase [varchar(100)]: Nombre de la clase.
+        descripción [varchar(100)]: Breve descripción de la clase de personaje. (Mago, Guerrero, Arquero)
+
+•	Tabla: Estadística (jugadores)
+        id_estadistica [int]: Clave primaria.
+        vida [float]: Porcentaje de vida.
+        nivel [int]: Nivel del personaje.
+        experiencia [float]: Numero que se prevee va en aumento a lo largo del juego.
+        fuerza [int]: Fuerza del personaje. Define que ítems podrá usar el PJ.
+        agilidad [int]: Agilidad para desplazarse.
+        magia [int]: Magia que le permite al personaje el uso de habilidades especiales.
+
+•	Tabla: Personajes_estadisticas. Tabla intermedia entre Personajes y estadísticas
+        id_usuario [int]: Clave primaria compuesta (personaje)
+        id_personaje [int]: Clave primaria compuesta (personaje)
+        id_estadistica [int]: Clave primaria compuesta (estadísticas)
+        oro [int]: Cantidad de oro del personaje.
+        mana [float]: Porcentaje de capacidad de utilización de poderes especiales del personaje.
+
+•	Tabla: Inventario (Personaje)
+        id_inventario [int]: Clave primaria
+        cant_slots [int]: Cantidad de espacios disponibles (slots) para agregar Ítems.
+•	Tabla: Npcs
+        id_npc [int]: Id, Clave primaria
+        id_tipo [int]: Clave foránea (npcs_tipos)
+        nombre_npc [varchar (100)]: Nombre del jugador Npc.
+        estatico[bit]: Atributo para corroborar si el Npc se desplaza por el mapa o permanece estático en una coordenada.
+
+•	Tabla: Npcs_Tipos.
+        id_tipo [int]: Id, Clave primaria
+        nombre_tipo [varchar(100)]: Nombre del tipo de Npc.
+
+•	Tabla: Npcs_estadisticas. Tabla intermedia entre Npcs y Estadisticas.
+        id_npc [int]: Clave primaria compuesta (Npcs).
+        id_estadistica [int]: Clave primaria compuesta (Estadisticas).
+
+•	Tabla: Ítems
+        id_item [int]: Id, Clave primaria
+        id_categoria [int]: Clave foránea a tabla “Categorías”.
+        nombre [varchar(100)]: Nombre del Ítem.
+        descripción [varchar(100)]: Breve descripción de sus características. 
+
+•	Tabla: Categoría. Tabla tipo de Ítems
+        id_categoria [int]: Id, clave primaria.
+        titulo_categoria [varchar(100)]: Nombre de la categoría.
+        Descripción [varchar(100)]: Breve descripción de características esenciales de la categoría.
+
+•	Tabla: Inventarios_Items: Tabla intermedia entre Ítems e Inventarios.
+        id_inventario [int]: Clave primaria compuesta (inventarios).
+        id_item [int]: Clave primaria compuesta (Ítems).
+        Slot [int]: Espacios disponibles para agregar Ítems
+        Cantidad: Cantidad de Ítems.
+
+•	Tabla: Estadistica_Item: Estadísticas de cada Item.
+        id_estadistica_item [int]: Id, Clave primaria.
+        fuerza [int]: Fuerza de golpe del ítem.
+        agilidad [int]: Facilidad de uso.
+        magia [int]: Magia del Ítem.
+        req_fuerza [int]: Requerimiento de fuerza que debe tener el PJ para usar el Ítem.
+        req_agilidad [int]: Requerimiento de agilidad que debe tener el PJ para usar el Item.
+        req_magia [int]: Requerimiento de magia necesario para usar el Item.
+        req_clase [int]: Algunas clases de personajes no pueden usar ítems que no correspondan a su clase.
+        req_nivel [int]: Requerimientos de nivel que debe tener un PJ para poder usar el Item.
+        poder_defensa [float]: Porcentaje de defensa.
+        poder_ataque [float]: Porcentaje de ataque.
+        poder_magico [float]: Porcentaje de poder mágico.
+
+•	Tabla: Items_estadisticas_items. Tabla intermedia entre Items y estadísticas_items.
+        id_item[int]: Clave primaria compuesta (Items).
+        id_estadistica_item [int]: Clave primaria compuesta (estadisticas_items).
+
+•	Tabla: Tiendas
+        id_tienda [int]: Id, Clave primaria.
+        nombre [varchar(100)]: Nombre de la tienda
+        cant_slots [int]: Cantidad de espacios para almacenar Items.
+
+•	Tabla: Tiendas_items. Tabla intermedia entre Tiendas e Items.
+        id_tienda [int]: Clave primaria compuesta (Tiendas)
+        id_item [int]: Clave primaria compuesta (Items)
+        precio [float]: Precio en oro de cada ítem.
+        cantidad [int]: Cantidad de Items.
+
+•	Tabla: Mapas
+        id_mapa [int]: Id, Clave primaria.
+        nombre_mapa [varchar (100)]: Nombre del mapa.
+        tamanio_x [int]: Tamaño definido del mapa en el eje horizontal.
+        tamanio_y [int]: Tamaño definido del mapa en el eje vertical.
+
+
+
+•	Tabla: Mapas_npcs. Tabla intermedia entre Mapas y Npcs
+        id_mapa [int]: Clave primaria compuesta.
+        id_npc [int]: Clave primaria compuesta.
+        coord_x [int]: Coordenadas de ubicación del jugador (npc) en el eje horizontal.
+        coord_y [int]: Coordenadas de ubicación del jugador(npc) en el eje vertical.
+
+•	Tabla: Mapas_personajes. Tabla intermedia entre Mapas y Personajes
+        id_usuario [int]: Clave primaria compuesta (personaje)
+        id_personaje [int]: Clave primaria compuesta (personaje)
+        id_mapa [int]: Clave primaria compuesta (Mapas).
+        coord_x [int]: Coordenadas de ubicación del jugador (personaje) en el eje horizontal.
+        coord_y [int]: Coordenadas de ubicación del jugador (personaje) en el eje vertical.
+
+
+
 ## **CAPITULO V**
 
 Como resultado del trabajo presentado, llegamos a la conclusion como grupo, que pudimos llevar a cabo la elaboracion de una base de datos relacional, orientada a un videojuego RPG. Cubriendo todos los principales objetivos planteados desde un principio y agregando nueva funcionalidades sobre la elaboracion del mismo. Tambien nos surgieron varias dificultades que supimos afrontar como la creacion del modelo, elaboracion de procedimientos y transacciones en el lenguaje SQL. Consideramos que hay aspectos a mejorar que no se han podido explorar con profundidad y que son tomados como mejora en un futuro, como lo son las transacciones entre personajes y/o tienda, alguna implementacion de metodos de backup en caliente, encriptacion de datos y backups, entre otras cosas.
