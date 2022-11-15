@@ -55,7 +55,7 @@ Con estas características cubiertas de base, podríamos ir ampliando a futuro c
 ## **CAPITULO III**
 
 Usamos como metodologia reuniones en la plataforma Google MEET, donde pactabamos las tareas que hacian falta para el proyecto. Luego ese listado de tareas lo subiamos a la plataforma TRELLO, donde cada colaborador podia asignarse tareas, las cuales se dividian en "En proceso" "Finalizados, por subir" "Finalizados, subidos".
-Para que cada colaborador pudiera hacer y ver los cambios de los otros en el proyecto, optamos por la plataforma de GitHub.
+Para que cada colaborador pudiera hacer y ver los cambios de los otros en el proyecto, optamos por utilizar la plataforma de Git como sistema de control de versiones distribuido y GitHub como plataforma para alojar el repositorio git.
 
 ## **CAPITULO IV**
 
@@ -109,7 +109,7 @@ Diccionario de datos (descripción de los atributos de cada tabla)
 
 ## **CAPITULO V**
 
-(conclusiones / dificultades / desafíos o perspectivas)
+Como resultado del trabajo presentado, llegamos a la conclusion como grupo, que pudimos llevar a cabo la elaboracion de una base de datos relacional, orientada a un videojuego RPG. Cubriendo todos los principales objetivos planteados desde un principio y agregando nueva funcionalidades sobre la elaboracion del mismo. Tambien nos surgieron varias dificultades que supimos afrontar como la creacion del modelo, elaboracion de procedimientos y transacciones en el lenguaje SQL. Consideramos que hay aspectos a mejorar que no se han podido explorar con profundidad y que son tomados como mejora en un futuro, como lo son las transacciones entre personajes y/o tienda, alguna implementacion de metodos de backup en caliente, encriptacion de datos y backups, entre otras cosas.
 
 ## **BIBLIOGRAFÍA**
 
