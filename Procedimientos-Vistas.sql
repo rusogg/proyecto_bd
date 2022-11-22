@@ -210,6 +210,11 @@ ALTER ROLE db_securityadmin ADD member seguridad
 GO
 copiaBD 'bd_juego_g9','copia12r'
 
+GO
+CREATE OR ALTER FUNCTION [dbo].[GetIdItemPer](@id_usu as int,@id_per as int)
+RETURNS TABLE  
+AS  
+RETURN  SELECT id_item FROM usuPer_Items where id_usuario=@id_usu and id_personaje=@id_per
 
 --Transacciones
 GO
