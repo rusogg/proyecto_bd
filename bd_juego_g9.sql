@@ -155,6 +155,9 @@ CREATE TABLE personajes
 ALTER TABLE personajes
 ADD estado_online BIT NOT NULL DEFAULT 1
 
+ALTER TABLE personajes
+ADD item INT NOT NULL DEFAULT 1
+
 
 CREATE TABLE mapas_personajes
 (
